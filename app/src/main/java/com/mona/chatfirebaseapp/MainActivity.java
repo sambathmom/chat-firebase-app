@@ -2,6 +2,7 @@ package com.mona.chatfirebaseapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // TODO: Set up the display name and get the Firebase reference
+        retrieveDisplayName();
 
 
         // Link the Views in the layout to the Java code
@@ -34,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // TODO: Retrieve the display name from the Shared Preferences
+    private void retrieveDisplayName() {
+        SharedPreferences sharedPreferences = getSharedPreferences(RegisterActivity.CHAT_PREFS, MODE_PRIVATE);
+        mDisplayName = sharedPreferences.getString(RegisterActivity.DISPLAY_NAME_KEY, null);
+    }
 
 
     private void sendMessage() {
