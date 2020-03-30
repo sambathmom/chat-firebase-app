@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     // Executed when Register button pressed
     public void registerNewUser(View v) {
         Intent intent = new Intent(this, RegisterActivity.class);
-        finish();
+      //  finish();
         startActivity(intent);
     }
 
