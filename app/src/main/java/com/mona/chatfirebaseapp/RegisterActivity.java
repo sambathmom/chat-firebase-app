@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -129,9 +131,13 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 Log.d("Chat", "OnComplete() success" + task.isSuccessful());
-
                 if (!task.isSuccessful()) {
                     showErrorDialog("User created failed");
+                } else {
+                    saveDisplayName();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    finish();
+                    startActivity(intent);
                 }
             }
         });
@@ -139,6 +145,11 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     // TODO: Save the display name to Shared Preferences
+    private void saveDisplayName() {
+        String displayName = mUsernameView.getText().toString();
+        SharedPreferences sharedPreferences = getSharedPreferences(CHAT_PREFS, 0);
+        sharedPreferences.edit().putString(DISPLAY_NAME_KEY, displayName).apply();
+    }
 
 
     // TODO: Create an alert dialog to show in case registration failed
