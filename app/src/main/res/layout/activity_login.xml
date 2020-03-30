@@ -8,10 +8,10 @@
     android:paddingRight="64dp"
     android:paddingTop="10dp"
     android:background="@drawable/background_welcome_min"
-    tools:context="com.mona.chat_firebase_app.LoginActivity"
+    tools:context="com.mona.chatfirebaseapp.LoginActivity"
     android:gravity="bottom">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/white"
@@ -29,9 +29,9 @@
             android:maxLines="1"
             android:textIsSelectable="false"/>
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/white"
@@ -51,7 +51,7 @@
             android:maxLines="1"
             />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/login_sign_in_button"

@@ -8,7 +8,7 @@
     android:paddingRight="64dp"
     android:paddingTop="10dp"
     android:background="@color/light_purple"
-    tools:context="com.mona.chat_firebase_app.MainActivity">
+    tools:context="com.mona.chatfirebaseapp.MainActivity">
 
     <ListView
         android:id="@+id/chat_list_view"

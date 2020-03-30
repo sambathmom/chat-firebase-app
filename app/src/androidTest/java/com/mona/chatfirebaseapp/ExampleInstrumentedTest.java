@@ -1,4 +1,4 @@
-package com.mona.chat_firebase_app;
+package com.mona.chatfirebaseapp;
 
 import android.content.Context;
 

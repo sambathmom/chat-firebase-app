@@ -9,7 +9,7 @@
     android:paddingRight="64dp"
     android:paddingTop="10dp"
     android:background="@drawable/background_login_min"
-    tools:context="com.mona.chat_firebase_app.RegisterActivity"
+    tools:context="com.mona.chatfirebaseapp.RegisterActivity"
     android:gravity="top">
 
 
