@@ -2,7 +2,9 @@ package com.mona.chatfirebaseapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +74,7 @@ public class ChatListAdapter extends BaseAdapter {
     @Override
     public InstanceMessage getItem(int i) {
         DataSnapshot dataSnapshot = dataSnapshots.get(i);
-
+        Log.d("Chat", dataSnapshot.toString());
         String author = dataSnapshot.child("author").getValue().toString();
         String messge = dataSnapshot.child("message").getValue().toString();
         InstanceMessage instanMessage = new InstanceMessage(messge,author);
@@ -97,13 +99,16 @@ public class ChatListAdapter extends BaseAdapter {
             holder.tvMessage = view.findViewById(R.id.message);
             holder.params = (LinearLayout.LayoutParams) holder.tvAuthorName.getLayoutParams();
             view.setTag(holder);
-        }else{
+        }else {
             holder = (ViewHolder) view.getTag();
         }
 
-
         final InstanceMessage message = getItem(i);
+
+        Boolean isMe = message.getAuthor().equals("mDisplayName");
+        setChatRowAppearance(isMe, holder);
         Log.d(TAG, "getView: "+message.getMessage());
+
         String author = message.getAuthor();
         holder.tvAuthorName.setText(author);
 
@@ -119,6 +124,18 @@ public class ChatListAdapter extends BaseAdapter {
         LinearLayout.LayoutParams params;
     }
 
+    public void setChatRowAppearance(boolean isMe, ViewHolder holder) {
+        if (isMe) {
+            holder.params.gravity = Gravity.END;
+            holder.tvAuthorName.setTextColor(Color.GREEN);
+            holder.tvMessage.setBackgroundColor(R.drawable.bubble2);
+        } else {
+            holder.params.gravity = Gravity.START;
+            holder.tvAuthorName.setTextColor(Color.BLUE);
+            holder.tvMessage.setBackgroundColor(R.drawable.bubble1);
+        }
+
+    }
     public void cleanUp() {
         databaseReference.removeEventListener(childEventListener);
     }
