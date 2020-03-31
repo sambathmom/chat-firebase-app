@@ -26,6 +26,7 @@ public class ChatListAdapter extends BaseAdapter {
     private String displayName;
     private ArrayList<DataSnapshot> dataSnapshots;
 
+    String TAG = "ChatListAdapter";
     private ChildEventListener childEventListener = new ChildEventListener() {
         @Override
         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -35,7 +36,7 @@ public class ChatListAdapter extends BaseAdapter {
 
         @Override
         public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+            Log.d(TAG, "onChildChanged: "+dataSnapshot.toString());
         }
 
         @Override
@@ -71,7 +72,12 @@ public class ChatListAdapter extends BaseAdapter {
     @Override
     public InstanceMessage getItem(int i) {
         DataSnapshot dataSnapshot = dataSnapshots.get(i);
-        return dataSnapshot.getValue(InstanceMessage.class);
+
+        String author = dataSnapshot.child("author").getValue().toString();
+        String messge = dataSnapshot.child("message").getValue().toString();
+        InstanceMessage instanMessage = new InstanceMessage(messge,author);
+        Log.d(TAG, "getItem:"+messge);
+        return instanMessage;
     }
 
     @Override
@@ -81,25 +87,29 @@ public class ChatListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        if (view == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.chat_msg_row, viewGroup, false);
-            final ViewHolder holder = new ViewHolder();
+
+        ViewHolder holder;
+
+        if(view==null){
+            holder = new ViewHolder();
+            view = LayoutInflater.from(activity).inflate(R.layout.chat_msg_row, viewGroup, false);
             holder.tvAuthorName = view.findViewById(R.id.author);
             holder.tvMessage = view.findViewById(R.id.message);
             holder.params = (LinearLayout.LayoutParams) holder.tvAuthorName.getLayoutParams();
             view.setTag(holder);
-
+        }else{
+            holder = (ViewHolder) view.getTag();
         }
 
-        final InstanceMessage message = getItem(i);
-        final ViewHolder holder = (ViewHolder) view.getTag();
 
+        final InstanceMessage message = getItem(i);
+        Log.d(TAG, "getView: "+message.getMessage());
         String author = message.getAuthor();
         holder.tvAuthorName.setText(author);
 
         String messageText = message.getMessage();
         holder.tvMessage.setText(messageText);
+
         return view;
     }
 
