@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mInputText;
     private ImageButton mSendButton;
     private DatabaseReference databaseReference;
+    private ChatListAdapter chatListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO: Grab the text the user typed in and push the message to Firebase
         String input = mInputText.getText().toString();
         if (!input.equals("")) {
-            InstanceMessage chat = new InstanceMessage(input, mDisplayName);
+            InstanceMessage chat = new InstanceMessage(input, "mDisplayName");
             databaseReference.child("messages").push().setValue(chat);
             Log.d("Chat", chat.toString());
             mInputText.setText("");
@@ -80,10 +81,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        chatListAdapter = new ChatListAdapter(this, databaseReference, "mDisplayName");
+        mChatListView.setAdapter(chatListAdapter);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
 
         // TODO: Remove the Firebase event listener on the adapter.
+        chatListAdapter.cleanUp();
 
     }
 }
