@@ -45,6 +45,14 @@ public class ChatListAdapter extends BaseAdapter {
         @Override
         public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
             Log.d(TAG, "onChildChanged: "+dataSnapshot.toString());
+
+            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                InstanceMessage message = postSnapshot.getValue(InstanceMessage.class);
+                Log.d(TAG, "onChildChanged: "+message.getMessage());
+                model.add(message);
+            }
+
+            notifyDataSetChanged();
         }
 
         @Override
