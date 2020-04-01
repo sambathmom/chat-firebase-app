@@ -25,14 +25,20 @@ import java.util.ArrayList;
 public class ChatListAdapter extends BaseAdapter {
     private Activity activity;
     private DatabaseReference databaseReference;
-    private String displayName;
-    private ArrayList<DataSnapshot> dataSnapshots;
+    private ArrayList<InstanceMessage> model;
 
     String TAG = "ChatListAdapter";
     private ChildEventListener childEventListener = new ChildEventListener() {
         @Override
         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            dataSnapshots.add(dataSnapshot);
+            Log.d(TAG, "onChildAdded: "+dataSnapshot);
+
+            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                InstanceMessage message = postSnapshot.getValue(InstanceMessage.class);
+                Log.d(TAG, "onChildAdded: "+message.getMessage());
+                model.add(message);
+            }
+
             notifyDataSetChanged();
         }
 
@@ -58,28 +64,21 @@ public class ChatListAdapter extends BaseAdapter {
     };
 
     public ChatListAdapter(Activity activity, DatabaseReference databaseReference, String displayName) {
+        model = new ArrayList<>();
         this.activity = activity;
         this.databaseReference = databaseReference.child("messages");
         databaseReference.addChildEventListener(childEventListener);
-        this.displayName = displayName;
-        this.dataSnapshots = new ArrayList<>();
     }
 
     @Override
     public int getCount() {
-        Log.d("Chat", "Size " + dataSnapshots.size());
-        return dataSnapshots.size();
+        Log.d("Chat", "Size " + model.size());
+        return model.size();
     }
 
     @Override
-    public InstanceMessage getItem(int i) {
-        DataSnapshot dataSnapshot = dataSnapshots.get(i);
-        Log.d("Chat", dataSnapshot.toString());
-        String author = dataSnapshot.child("author").getValue().toString();
-        String messge = dataSnapshot.child("message").getValue().toString();
-        InstanceMessage instanMessage = new InstanceMessage(messge,author);
-        Log.d(TAG, "getItem:"+messge);
-        return instanMessage;
+    public Object getItem(int position) {
+        return position;
     }
 
     @Override
@@ -103,7 +102,7 @@ public class ChatListAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        final InstanceMessage message = getItem(i);
+        final InstanceMessage message = model.get(i);
 
         Boolean isMe = message.getAuthor().equals("mDisplayName");
         setChatRowAppearance(isMe, holder);
