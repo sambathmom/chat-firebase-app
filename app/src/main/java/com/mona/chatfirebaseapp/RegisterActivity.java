@@ -130,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d("Chat", "OnComplete() success" + task.isSuccessful());
+                Log.d("Chat", "OnComplete() success " + task.isSuccessful());
                 if (!task.isSuccessful()) {
                     showErrorDialog("User created failed");
                 } else {
@@ -152,6 +152,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
         SharedPreferences sharedPreferences = getSharedPreferences(CHAT_PREFS, 0);
         sharedPreferences.edit().putString(DISPLAY_NAME_KEY, displayName).apply();
+
+        Log.d("Chat", sharedPreferences.getString(DISPLAY_NAME_KEY, null));
     }
 
 

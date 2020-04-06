@@ -1,7 +1,6 @@
 package com.mona.chatfirebaseapp;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 public class ChatListAdapter extends BaseAdapter {
     private Activity activity;
     private DatabaseReference databaseReference;
+    private String mDisplayName;
     private ArrayList<InstanceMessage> model;
 
     String TAG = "ChatListAdapter";
@@ -76,6 +76,8 @@ public class ChatListAdapter extends BaseAdapter {
         this.activity = activity;
         this.databaseReference = databaseReference.child("messages");
         databaseReference.addChildEventListener(childEventListener);
+
+        this.mDisplayName = displayName;
     }
 
     @Override
@@ -112,7 +114,7 @@ public class ChatListAdapter extends BaseAdapter {
 
         final InstanceMessage message = model.get(i);
 
-        Boolean isMe = message.getAuthor().equals("mDisplayName");
+        Boolean isMe = message.getAuthor().equals(mDisplayName);
         setChatRowAppearance(isMe, holder);
         Log.d(TAG, "getView: "+message.getMessage());
 

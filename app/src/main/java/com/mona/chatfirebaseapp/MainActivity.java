@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private void retrieveDisplayName() {
         SharedPreferences sharedPreferences = getSharedPreferences(RegisterActivity.CHAT_PREFS, MODE_PRIVATE);
         mDisplayName = sharedPreferences.getString(RegisterActivity.DISPLAY_NAME_KEY, null);
+
+        Log.d("Chat", mDisplayName);
     }
 
 
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        chatListAdapter = new ChatListAdapter(this, databaseReference, "mDisplayName");
+        chatListAdapter = new ChatListAdapter(this, databaseReference, mDisplayName);
         mChatListView.setAdapter(chatListAdapter);
     }
 
